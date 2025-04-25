@@ -1,3 +1,5 @@
+# Vim-Style CapsLock+
+
 English | [中文](README_zh-CN.md)
 
 ---
@@ -8,6 +10,25 @@ v2 branch: v2.x
 
 [Docs](https://capslox.com/capslock-plus/en.html)
 
+## New Vim-Style Key Mappings
+
+This fork of CapsLock+ uses Vim-style key mappings for more intuitive navigation:
+
+| Action | New Key | Original Key |
+|--------|---------|--------------|
+| Move cursor left | `CapsLock+h` | `CapsLock+s` |
+| Move cursor down | `CapsLock+j` | `CapsLock+d` |
+| Move cursor up | `CapsLock+k` | `CapsLock+e` |
+| Move cursor right | `CapsLock+l` | `CapsLock+f` |
+| Move cursor left by word | `CapsLock+b` | `CapsLock+a` |
+| Move cursor right by word | `CapsLock+w` | `CapsLock+g` |
+| Delete | `CapsLock+d` | `CapsLock+w` |
+| Delete character | `CapsLock+x` | `CapsLock+r` |
+| Copy to clipboard 1 | `CapsLock+q` | `CapsLock+c` |
+| Cut to clipboard 1 | `CapsLock+c` | `CapsLock+x` |
+| Paste from clipboard 1 | `CapsLock+m` | `CapsLock+v` |
+
+More mappings can be found in the CapsLock+settings.ini file.
 
 ## How to run the source code?
 1. Download and install [AutoHotkey (v1.1.+)](http://www.ahkscript.org/)
@@ -25,58 +46,7 @@ v2 branch: v2.x
 
 An example here:
 
-### Replace Capslock+Q with Listary
-Listary is a good app launcher, now I want to add two features to it:
-
-1. Activate Listary with `CapsLock+Q`
-2. I want to fill the selected text into the pop-up text input box
-
-We can make it like this:
+### Creating a Custom Function
+Let's create a custom Listary launcher:
 
 1. Copy the following code to `/userAHK/main.ahk`:
-```ahk
-keyfunc_listary(){
-    ; Get the selected text
-    selText:=getSelText()
-
-    ; Send win+F (the default hotkey of Listary) to activate Listary
-    sendinput, #{f}
-
-    ; Wait until Listary is activated
-    winwait, ahk_exe Listary.exe, , 0.5
-
-    ; If there is any selected text
-    if(selText){
-        ; Add "gg " before the selected text to google
-        selText:="gg " . selText
-
-        ; Fill the text, and press `home` key to move the cursor to the beginning,
-        ; in order to add other keywords if you need.
-        sendinput, %selText%{home}
-    }
-}
-```
-
-2. Add a setting `caps_q=keyfunc_listary()` under `[Keys]` section in `CapsLock+settings.ini`, save, press `CapsLock+F5` to reload, done.
-
-## How to modify the original functions?
-`CapsLock+.ahk` is the entry file, library files are in the `/lib` folder,
-the function of each file is as follows:
-
-|Filename|Description|
-|:---|:---|
-|lib_bindWins.ahk|Window binding|
-|lib_clQ.ahk|qbar|
-|lib_clTab.ahk|CapsLock+Tab|
-|lib_functions.ahk|Some utils|
-|lib_init.ahk|Program initialization|
-|lib_jsEval.ahk|The calculation function implemented by using the IE engine, required by Math Board and CapsLock+Tab|
-|lib_json.ahk|json library|
-|lib_keysFunction.ahk|All the key functions|
-|lib_keysSet.ahk|Hotkey layouts|
-|lib_loadAnimation.ahk|Loading animation when the program starts|
-|lib_mathBoard.ahk|Math Board|
-|lib_mouseSpeed.ahk|Mouse speed modification|
-|lib_settings.ahk|Load the settings in CapsLock+settings.ini|
-|lib_ydTrans.ahk|Youdao Translation|
-
